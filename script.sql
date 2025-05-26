@@ -1,23 +1,59 @@
 -- Active: 1748216084284@@127.0.0.1@5432@postgres
---Exemplo: sp_calcular_troco atualizado com log
 
-CREATE OR REPLACE PROCEDURE sp_cadastrar_clientes(
-    OUT mensagem TEXT,
-    VARIADIC p_nomes TEXT[]
-)
-LANGUAGE plpgsql
-AS $$
-DECLARE
-    nome TEXT;
-BEGIN
-    FOREACH nome IN ARRAY p_nomes LOOP
-        INSERT INTO tb_cliente (nome) VALUES (nome);
-    END LOOP;
 
-    mensagem := 'Os clientes: ' || array_to_string(p_nomes, ', ') || ' foram cadastrados';
-    CALL sp_inserir_log('sp_cadastrar_clientes');
-END;
-$$;
+-- DO $$
+-- BEGIN
+--     CALL sp_total_pedidos_cliente(1);
+-- END;
+-- $$;
+
+-- DO $$
+-- DECLARE
+--     v_total INT;
+-- BEGIN
+--     CALL sp_total_pedidos_cliente_out(1, v_total);
+--     RAISE NOTICE 'Total OUT: %', v_total;
+-- END;
+-- $$;
+
+-- DO $$
+-- DECLARE
+--     v_cod_cliente INT := 1;
+-- BEGIN
+--     CALL sp_total_pedidos_cliente_inout(v_cod_cliente);
+--     RAISE NOTICE 'Total INOUT: %', v_cod_cliente;
+-- END;
+-- $$;
+
+-- DO $$
+-- DECLARE
+--     v_msg TEXT;
+-- BEGIN
+--     CALL sp_cadastrar_clientes('Pedro', 'Ana', 'João', v_msg);
+--     RAISE NOTICE '%', v_msg;
+-- END;
+-- $$;
+
+
+
+
+-- CREATE OR REPLACE PROCEDURE sp_cadastrar_clientes(
+--     OUT mensagem TEXT,
+--     VARIADIC p_nomes TEXT[]
+-- )
+-- LANGUAGE plpgsql
+-- AS $$
+-- DECLARE
+--     nome TEXT;
+-- BEGIN
+--     FOREACH nome IN ARRAY p_nomes LOOP
+--         INSERT INTO tb_cliente (nome) VALUES (nome);
+--     END LOOP;
+
+--     mensagem := 'Os clientes: ' || array_to_string(p_nomes, ', ') || ' foram cadastrados';
+--     CALL sp_inserir_log('sp_cadastrar_clientes');
+-- END;
+-- $$;
 
 -- CREATE OR REPLACE PROCEDURE sp_total_pedidos_cliente_inout(INOUT p_cod_cliente INT)
 -- LANGUAGE plpgsql
