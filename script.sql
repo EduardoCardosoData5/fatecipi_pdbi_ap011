@@ -1,21 +1,35 @@
 -- Active: 1748216084284@@127.0.0.1@5432@postgres
 --Exemplo: sp_calcular_troco atualizado com log
 
-
-CREATE OR REPLACE PROCEDURE sp_total_pedidos_cliente(IN p_cod_cliente INT)
+CREATE OR REPLACE PROCEDURE sp_total_pedidos_cliente_out(
+    IN p_cod_cliente INT,
+    OUT p_total INT
+)
 LANGUAGE plpgsql
 AS $$
-DECLARE
-    v_total INT;
 BEGIN
-    SELECT COUNT(*) INTO v_total
+    SELECT COUNT(*) INTO p_total
     FROM tb_pedido
     WHERE cod_cliente = p_cod_cliente;
 
-    RAISE NOTICE 'O cliente % possui % pedidos', p_cod_cliente, v_total;
-    CALL sp_inserir_log('sp_total_pedidos_cliente');
+    CALL sp_inserir_log('sp_total_pedidos_cliente_out');
 END;
 $$;
+
+-- CREATE OR REPLACE PROCEDURE sp_total_pedidos_cliente(IN p_cod_cliente INT)
+-- LANGUAGE plpgsql
+-- AS $$
+-- DECLARE
+--     v_total INT;
+-- BEGIN
+--     SELECT COUNT(*) INTO v_total
+--     FROM tb_pedido
+--     WHERE cod_cliente = p_cod_cliente;
+
+--     RAISE NOTICE 'O cliente % possui % pedidos', p_cod_cliente, v_total;
+--     CALL sp_inserir_log('sp_total_pedidos_cliente');
+-- END;
+-- $$;
 
 
 -- CREATE OR REPLACE PROCEDURE sp_calcular_troco(
